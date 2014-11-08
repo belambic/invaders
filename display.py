@@ -47,7 +47,6 @@ class Display(object):
 
 	def putstring(self, y, x, str):
 		self.addStr(y, x, str);
-		self.move(0, 0)
     
 	# Function to move the cursor
 	def move(self, y, x):
