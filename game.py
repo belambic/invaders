@@ -14,6 +14,7 @@ class Game(object):
 		score = 0
 		lives = 3
 		framerate = 25
+		shields = 4
 
 		display = Display()
 		gun = Gun(maxx=display.width, maxy=display.height)
