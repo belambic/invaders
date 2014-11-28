@@ -17,35 +17,45 @@ class Game(object):
 		framerate = 25
 		shields = 4
 		gameover = False
+		aliens = []
+		positions = []
+		old_positions = []
 
 		display = Display()
 		gun = Gun(maxx=display.width, maxy=display.height)
-		alien = Alien(maxx=display.width, maxy=display.height)
-		position = alien.move()
-		
-		while True:
-			old_position = position
-			position = alien.move()
-		
-			display.putstring(old_position[0], old_position[1], "     ")
-	
-			self.status(display, lives, score)
-			display.putstring(position[0], position[1], alien.alien)
-			display.putstring(gun.guny, gun.gunx, gun.gun)
-			hit = gun.hits(alien.Y, alien.X)
 
-			if alien.Y == display.height - 2:
+		y=5
+		for aliencount in range(0, 14):
+			x = 5+aliencount*10
+			if x > display.width - 10:
+				x -= 70
+				y = 7
+			aliens.append(Alien(y=y, x=x))
+			positions.append(aliens[aliencount].move())
+			old_positions.append(0)
+
+		while True:
+			self.status(display, lives, score)
+
+			for aliencount in range(0, 14):
+				old_positions[aliencount] = positions[aliencount]
+				positions[aliencount] = aliens[aliencount].move()
+				display.putstring(old_positions[aliencount][0], old_positions[aliencount][1], "     ")
+				display.putstring(positions[aliencount][0], positions[aliencount][1], aliens[0].alien)
+
+			display.putstring(gun.guny, gun.gunx, gun.gun)
+			hit = gun.hits(aliens[0].Y, aliens[0].X)
+
+			if aliens[0].Y == display.height - 2:
 				if lives == 1:
 					lives -= 1
 					display.putstring(alien.Y, alien.X, "     ")
-					alien.reset()
 				else:
 					gameover = True
 					display.putstring(10, 30, "Game Over!!!")
-					display.putstring(alien.Y, alien.X, "     ")
-					alien.reset()
+					display.putstring(aliens[0].Y, aliens[0].X, "     ")
 			elif hit:
-				display.putstring(alien.Y, alien.X, " BOOM ")
+				display.putstring(aliens[0].Y, aliens[0].X, " BOOM ")
 				score += 1
 			elif gun.firing:
 				display.putstring(gun.bullety, gun.bulletx, gun.bullet)
@@ -62,9 +72,7 @@ class Game(object):
 				display.putstring(gun.bullety, gun.bulletx, " ")
 
 			if hit:
-				display.putstring(alien.Y, alien.X, "      ")
-				alienX = 0
-				alienY = 5
+				display.putstring(aliens[0].Y, aliens[0].X, "      ")
 
 			display.refresh()
 	
