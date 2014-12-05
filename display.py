@@ -59,6 +59,9 @@ class Display(object):
 		except:
 			raise Exception("screen.getch raised !")
 
+	def erase(self):
+		self.screen.erase()
+		
 	# Close the screen and reset to sanity
 	def close(self):
 		self.screen.erase()

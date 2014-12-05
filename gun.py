@@ -6,6 +6,8 @@ class Gun(object):
 		self.maxy = maxy
 		self.gunx = maxx / 2
 		self.guny = maxy - 2
+		self.bulletx = 0
+		self.bullety = 0
 		self.firing = False
 		self.bullet = "|"
 		self.gun = " _A_ "
